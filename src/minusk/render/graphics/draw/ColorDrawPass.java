@@ -8,7 +8,6 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
 import minusk.render.graphics.Color;
-import minusk.render.graphics.filters.BlendFunc;
 import minusk.render.util.Shader;
 
 

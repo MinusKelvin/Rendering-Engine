@@ -52,12 +52,12 @@ public abstract class DrawPass {
 		glBufferData(GL_ARRAY_BUFFER, maxPolys*bytesPerVertex*3, drawmode);
 	}
 	
-	public DrawPass(int floatsPerVertex) {
-		this(DEFAULT_MAX_POLYGONS, floatsPerVertex, GL_STREAM_DRAW);
+	public DrawPass(int bytesPerVertex) {
+		this(DEFAULT_MAX_POLYGONS, bytesPerVertex, GL_STREAM_DRAW);
 	}
 	
-	public DrawPass(int maxVerticies, int floatsPerVertex) {
-		this(maxVerticies, floatsPerVertex, GL_STREAM_DRAW);
+	public DrawPass(int maxVerticies, int bytesPerVertex) {
+		this(maxVerticies, bytesPerVertex, GL_STREAM_DRAW);
 	}
 	
 	public void end() {

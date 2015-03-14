@@ -1,12 +1,14 @@
 package minusk.render.test;
 
 import minusk.render.core.Game;
-import minusk.render.graphics.Color;
+import minusk.render.graphics.OrthoCamera;
+import minusk.render.graphics.Texture2DArray;
 import minusk.render.graphics.draw.ColorDrawPass;
+import minusk.render.graphics.draw.TexturedDrawPass;
 import minusk.render.graphics.filters.BlendFunc;
 
 public class Test extends Game {
-	private ColorDrawPass test;
+	private TexturedDrawPass test;
 	
 	public Test() {
 		super(1024, 576, "Game", 8);
@@ -25,13 +27,17 @@ public class Test extends Game {
 	@Override
 	public void render() {
 		test.begin();
+		test.drawTriangle(16, 16, 0, 0, 1, 0, 32, 32, 0, 1, 0, 0, 32, 16, 0, 1, 1, 0);
 		test.end();
 	}
 
 	@Override
 	protected void initialize() {
-		test = new ColorDrawPass();
+		Texture2DArray texture = new Texture2DArray(16, 16, 1, 1, true);
+		texture.setTextureData(getClass().getResourceAsStream("/minusk/render/test/test.png"), 0, 0);
+		test = new TexturedDrawPass(texture);
 		test.setBlendFunc(BlendFunc.OVERWRITE);
+		test.camera = new OrthoCamera(0, 1024/4, 576/4, 0);
 	}
 
 	@Override
