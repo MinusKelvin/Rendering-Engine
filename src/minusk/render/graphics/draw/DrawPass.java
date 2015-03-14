@@ -33,27 +33,27 @@ import minusk.render.util.Util;
  * @author MinusKelvin
  */
 public abstract class DrawPass {
-	public static final int DEFAULT_MAX_VERTICIES = 32768;
+	public static final int DEFAULT_MAX_POLYGONS = 16384;
 	
 	private BlendFunc blend = BlendFunc.TRANSPARENCY;
-	private final int buffer, maxVerticies, bytesPerVertex;
+	private final int buffer, maxPolys, bytesPerVertex;
 	private boolean hasBegun = false;
 	protected ByteBuffer mapped;
 	protected Shader shader;
-	protected int verticies, cameraLocation;
+	protected int polys, cameraLocation;
 	
 	public Camera camera;
 	
-	public DrawPass(int maxVerticies, int bytesPerVertex, int drawmode) {
-		this.maxVerticies = maxVerticies;
+	public DrawPass(int maxPolys, int bytesPerVertex, int drawmode) {
+		this.maxPolys = maxPolys;
 		this.bytesPerVertex = bytesPerVertex;
 		buffer = glGenBuffers();
 		glBindBuffer(GL_ARRAY_BUFFER, buffer);
-		glBufferData(GL_ARRAY_BUFFER, maxVerticies*bytesPerVertex, drawmode);
+		glBufferData(GL_ARRAY_BUFFER, maxPolys*bytesPerVertex*3, drawmode);
 	}
 	
 	public DrawPass(int floatsPerVertex) {
-		this(DEFAULT_MAX_VERTICIES, floatsPerVertex, GL_STREAM_DRAW);
+		this(DEFAULT_MAX_POLYGONS, floatsPerVertex, GL_STREAM_DRAW);
 	}
 	
 	public DrawPass(int maxVerticies, int floatsPerVertex) {
@@ -80,22 +80,22 @@ public abstract class DrawPass {
 		glBindBuffer(GL_ARRAY_BUFFER, buffer);
 		preRender();
 		
-		glDrawArrays(GL_TRIANGLES, 0, verticies);
+		glDrawArrays(GL_TRIANGLES, 0, polys*3);
 		
 		postRender();
 	}
 	
 	public void begin() {
 		glBindBuffer(GL_ARRAY_BUFFER, buffer);
-		mapped = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, maxVerticies*bytesPerVertex, mapped);
-		verticies = 0;
+		mapped = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, maxPolys*bytesPerVertex, mapped);
+		polys = 0;
 		hasBegun = true;
 	}
 	
-	protected void checkDraw(int verticiesToDraw) {
+	protected void checkDraw(int polysToDraw) {
 		if (!hasBegun)
 			throw new IllegalStateException("Tried to call a draw method outside of a begin() / end().");
-		if (verticies+verticiesToDraw > maxVerticies) {
+		if (polys+polysToDraw > maxPolys) {
 			end();
 			begin();
 		}

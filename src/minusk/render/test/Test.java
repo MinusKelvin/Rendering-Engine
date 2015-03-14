@@ -1,6 +1,7 @@
 package minusk.render.test;
 
 import minusk.render.core.Game;
+import minusk.render.graphics.Color;
 import minusk.render.graphics.draw.ColorDrawPass;
 import minusk.render.graphics.filters.BlendFunc;
 
@@ -8,7 +9,7 @@ public class Test extends Game {
 	private ColorDrawPass test;
 	
 	public Test() {
-		super(1024, 576, "Game", 0);
+		super(1024, 576, "Game", 8);
 	}
 
 	public static void main(String[] args) {
@@ -24,7 +25,6 @@ public class Test extends Game {
 	@Override
 	public void render() {
 		test.begin();
-		test.drawRectangle(0,0,0.5f,0.5f,0xff0000ff);
 		test.end();
 	}
 
