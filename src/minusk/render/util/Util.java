@@ -1,4 +1,4 @@
-package minusk.render.core;
+package minusk.render.util;
 
 
 import java.nio.ByteBuffer;

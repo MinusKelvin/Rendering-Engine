@@ -1,18 +1,18 @@
 package minusk.render.test;
 
-import static org.lwjgl.opengl.GL11.GL_COLOR;
-import static org.lwjgl.opengl.GL30.glClearBuffer;
-
 import minusk.render.core.Game;
-import minusk.render.core.Util;
+import minusk.render.graphics.draw.ColorDrawPass;
+import minusk.render.graphics.filters.BlendFunc;
 
 public class Test extends Game {
+	private ColorDrawPass test;
+	
 	public Test() {
-		super(1024, 576, "Game");
+		super(1024, 576, "Game", 0);
 	}
 
 	public static void main(String[] args) {
-		new Test().gameloop(60);
+		new Test().gameloop(60, 10);
 	}
 
 	@Override
@@ -23,12 +23,15 @@ public class Test extends Game {
 
 	@Override
 	public void render() {
-		glClearBuffer(GL_COLOR, 0, Util.toBuffer(new float[] {0,0,0,0}));
+		test.begin();
+		test.drawRectangle(0,0,0.5f,0.5f,0xff0000ff);
+		test.end();
 	}
 
 	@Override
 	protected void initialize() {
-		
+		test = new ColorDrawPass();
+		test.setBlendFunc(BlendFunc.OVERWRITE);
 	}
 
 	@Override
