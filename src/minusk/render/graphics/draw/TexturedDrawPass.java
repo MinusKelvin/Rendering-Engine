@@ -79,6 +79,36 @@ public class TexturedDrawPass extends DrawPass {
 		polys++;
 	}
 	
+	public void drawTriangle(float x1, float y1, float u1, float v1, float layer1,
+			float x2, float y2, float u2, float v2, float layer2,
+			float x3, float y3, float u3, float v3, float layer3, float z) {
+		drawTriangle(x1, y1, z, u1, v1, layer1, x2, y2, z, u2, v2, layer2, x3, y3, z, u3, v3, layer3);
+	}
+	
+	public void drawTriangle(float x1, float y1, float u1, float v1, float layer1,
+			float x2, float y2, float u2, float v2, float layer2,
+			float x3, float y3, float u3, float v3, float layer3) {
+		drawTriangle(x1, y1, u1, v1, layer1, x2, y2, u2, v2, layer2, x3, y3, u3, v3, layer3, 0);
+	}
+	
+	public void drawTriangle(float x1, float y1, float u1, float v1,
+			float x2, float y2, float u2, float v2,
+			float x3, float y3, float u3, float v3, float layer) {
+		drawTriangle(x1, y1, u1, v1, layer, x2, y2, u2, v2, layer, x3, y3, u3, v3, layer);
+	}
+	
+	public void drawTriangle(float x1, float y1, float u1, float v1,
+			float x2, float y2, float u2, float v2,
+			float x3, float y3, float u3, float v3, float layer, float z) {
+		drawTriangle(x1, y1, z, u1, v1, layer, x2, y2, z, u2, v2, layer, x3, y3, z, u3, v3, layer);
+	}
+	
+	public void drawRectangle(float x1, float y1, float u1, float v1, float layer1,
+			float x2, float y2, float u2, float v2, float layer2) {
+		drawTriangle(x1, y1, u1, v1, layer1, x1, y2, u1, v2, (layer1+layer2)/2, x2, y2, u2, v2, layer2);
+		drawTriangle(x1, y1, u1, v1, layer1, x2, y2, u2, v2, layer2, x2, y1, u2, v1, (layer1+layer2)/2);
+	}
+	
 	private static final String vert =
 			  "#version 330 core							\n"
 			+ "												\n"

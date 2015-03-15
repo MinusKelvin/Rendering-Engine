@@ -88,6 +88,7 @@ public abstract class DrawPass {
 	public void begin() {
 		glBindBuffer(GL_ARRAY_BUFFER, buffer);
 		mapped = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, maxPolys*bytesPerVertex, mapped);
+		mapped.position(0);
 		polys = 0;
 		hasBegun = true;
 	}

@@ -27,7 +27,8 @@ public class Test extends Game {
 	@Override
 	public void render() {
 		test.begin();
-		test.drawTriangle(16, 16, 0, 0, 1, 0, 32, 32, 0, 1, 0, 0, 32, 16, 0, 1, 1, 0);
+		for (int i = 0; i < 16; i++)
+			test.drawRectangle(32+i*24, 32+i*24, 0, 1, 0, 64+i*24, 64+i*24, 1, 0, 0);
 		test.end();
 	}
 
@@ -37,7 +38,7 @@ public class Test extends Game {
 		texture.setTextureData(getClass().getResourceAsStream("/minusk/render/test/test.png"), 0, 0);
 		test = new TexturedDrawPass(texture);
 		test.setBlendFunc(BlendFunc.OVERWRITE);
-		test.camera = new OrthoCamera(0, 1024/4, 576/4, 0);
+		test.camera = new OrthoCamera(0, 1024, 576, 0);
 	}
 
 	@Override
