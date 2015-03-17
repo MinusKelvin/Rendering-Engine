@@ -5,12 +5,12 @@ public class Easing {
 		return new Vec2(p1.x*t + p2.x*(1-t), p1.y*t + p2.y*(1-t));
 	}
 	
-	public static Vec2 bezeir(Vec2[] points, float t) {
+	public static Vec2 bezier(Vec2[] points, float t) {
 		if (points.length == 1)
 			return points[0];
 		Vec2[] pts = new Vec2[points.length-1];
 		for (int i = 0; i < pts.length; i++)
 			pts[i] = linear(points[i], points[i+1], t);
-		return bezeir(pts, t);
+		return bezier(pts, t);
 	}
 }
