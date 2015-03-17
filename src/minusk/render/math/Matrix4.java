@@ -11,17 +11,17 @@ package minusk.render.math;
  * 
  * @author MinusKelvin
  */
-public class Matrix4f {
+public class Matrix4 {
 	public float m00,m10,m20,m30,
 	             m01,m11,m21,m31,
 	             m02,m12,m22,m32,
 	             m03,m13,m23,m33;
 	
-	public Matrix4f() {
+	public Matrix4() {
 		setIdentity();
 	}
 	
-	public Matrix4f(Matrix4f copyfrom) {
+	public Matrix4(Matrix4 copyfrom) {
 		m00 = copyfrom.m00;
 		m01 = copyfrom.m01;
 		m02 = copyfrom.m02;
@@ -109,9 +109,9 @@ public class Matrix4f {
 		m13 = t13;
 	}
 
-	public static Matrix4f mul(Matrix4f left, Matrix4f right, Matrix4f dest) {
+	public static Matrix4 mul(Matrix4 left, Matrix4 right, Matrix4 dest) {
 		if (dest == null)
-			dest = new Matrix4f();
+			dest = new Matrix4();
 
 		float m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03;
 		float m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03;

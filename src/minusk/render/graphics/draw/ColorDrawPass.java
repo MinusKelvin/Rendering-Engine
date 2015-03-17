@@ -48,7 +48,7 @@ public class ColorDrawPass extends DrawPass {
 	public void drawTriangle(float x1, float y1, float z1, int color1,
 			float x2, float y2, float z2, int color2,
 			float x3, float y3, float z3, int color3) {
-		checkDraw(3);
+		checkDraw(1);
 		
 		mapped.putFloat(x1);
 		mapped.putFloat(y1);

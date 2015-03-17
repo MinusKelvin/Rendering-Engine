@@ -7,7 +7,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
-import minusk.render.math.Matrix4f;
+import minusk.render.math.Matrix4;
 import static java.lang.Math.min;
 import static java.lang.Math.max;
 import static java.lang.Math.sqrt;
@@ -48,7 +48,7 @@ public class Util {
 				.position(0);
 	}
 	
-	public static FloatBuffer toBuffer(Matrix4f mat) {
+	public static FloatBuffer toBuffer(Matrix4 mat) {
 		float[] numbers = new float[16];
 		numbers[0] = mat.m00;
 		numbers[1] = mat.m01;
@@ -69,7 +69,7 @@ public class Util {
 		return toBuffer(numbers);
 	}
 
-	public static FloatBuffer toBuffer(Matrix4f mat, FloatBuffer buf) {
+	public static FloatBuffer toBuffer(Matrix4 mat, FloatBuffer buf) {
 		buf.put(mat.m00);
 		buf.put(mat.m01);
 		buf.put(mat.m02);
