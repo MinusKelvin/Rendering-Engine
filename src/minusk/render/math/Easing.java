@@ -2,7 +2,7 @@ package minusk.render.math;
 
 public class Easing {
 	public static Vec2 linear(Vec2 p1, Vec2 p2, float t) {
-		return new Vec2(p1.x*t + p2.x*(1-t), p1.y*t + p2.y*(1-t));
+		return new Vec2(p2.x*t + p1.x*(1-t), p2.y*t + p1.y*(1-t));
 	}
 	
 	public static Vec2 bezier(Vec2[] points, float t) {

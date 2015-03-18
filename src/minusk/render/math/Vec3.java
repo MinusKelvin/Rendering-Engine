@@ -35,6 +35,6 @@ public class Vec3 {
 	}
 	
 	public float length() {
-		return (float) Math.sqrt(length());
+		return (float) Math.sqrt(lengthsq());
 	}
 }

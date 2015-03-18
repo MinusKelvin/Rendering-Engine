@@ -1,5 +1,7 @@
 package minusk.render.test;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
 import java.util.Arrays;
@@ -7,19 +9,19 @@ import java.util.Arrays;
 import minusk.render.core.Game;
 import minusk.render.graphics.Color;
 import minusk.render.graphics.OrthoCamera;
-import minusk.render.graphics.Texture2DArray;
 import minusk.render.graphics.draw.ColorDrawPass;
-import minusk.render.graphics.draw.TexturedDrawPass;
 import minusk.render.graphics.filters.BlendFunc;
 import minusk.render.math.Easing;
 import minusk.render.math.Vec2;
+import minusk.render.util.Util;
 
 public class Test extends Game {
 	private ColorDrawPass test;
 	private Vec2[] points = {new Vec2()};
+	private float res = 0.125f;
 	
 	public Test() {
-		super(576, 576, "Game", 8);
+		super(1024, 576, "Game", 8);
 	}
 
 	public static void main(String[] args) {
@@ -31,9 +33,15 @@ public class Test extends Game {
 		if (window.input.closeRequested())
 			endLoop();
 		
-		if (window.input.isCursorInside()) {
+		if (window.input.isMouseTapped(GLFW_MOUSE_BUTTON_LEFT)) {
 			points = Arrays.copyOf(points, points.length+1);
-			points[points.length-1] = new Vec2(window.input.getMouseX() / 288f -1, -window.input.getMouseY() / 288f+1);
+			points[points.length-1] = new Vec2(window.input.getMouseX(), window.input.getMouseY());
+		}
+		if (window.input.isKeyTapped(GLFW_KEY_UP)) {
+			res /= 2;
+		}
+		if (window.input.isKeyTapped(GLFW_KEY_DOWN)) {
+			res *= 2;
 		}
 	}
 
@@ -42,24 +50,22 @@ public class Test extends Game {
 		long t = System.nanoTime();
 		test.begin();
 		
-		for (int i = 0; i < points.length; i++) {
-			test.drawRectangle(points[i].x-0.01f, points[i].y-0.01f, points[i].x+0.01f, points[i].y+0.01f, Color.Blue);
+		for (int i = 0; i < points.length-1; i++) {
+			test.drawLine(points[i].x, points[i].y, points[i+1].x, points[i+1].y, 2, Color.Blue);
 		}
 		
-//		for (float f = 0; f < 1; f+=0.001) {
-//			for (int i = 0; i < points.length-1; i++) {
-//				Vec2 p = Easing.linear(points[i], points[i+1], f);
-//				test.drawRectangle(p.x-0.01f, p.y-0.01f, p.x+0.01f, p.y+0.01f, Color.Orange);
-//			}
-//		}
-		
-		for (float f = 0; f < 1; f+=0.001) {
+		Vec2 lp = Easing.bezier(points, 0);
+		for (float f = res; ; f+=res) {
+			f = Math.min(f, 1);
 			Vec2 p = Easing.bezier(points, f);
-			test.drawRectangle(p.x-0.01f, p.y-0.01f, p.x+0.01f, p.y+0.01f, Color.Red);
+			test.drawLine(p.x, p.y, lp.x, lp.y, 4, new Color(1,f,0));
+			lp = p;
+			if (f == 1)
+				break;
 		}
 		
 		test.end();
-		System.out.println((System.nanoTime()-t)/1000000);
+		System.out.println((System.nanoTime()-t)/1000000 + ", " + 1/res);
 	}
 
 	@Override
@@ -68,6 +74,7 @@ public class Test extends Game {
 //		texture.setTextureData(getClass().getResourceAsStream("/minusk/render/test/test.png"), 0, 0);
 		test = new ColorDrawPass();
 		test.setBlendFunc(BlendFunc.OVERWRITE);
+		test.camera = new OrthoCamera(0, 1024, 0, 576);
 	}
 
 	@Override

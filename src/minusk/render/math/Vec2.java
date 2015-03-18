@@ -34,6 +34,37 @@ public class Vec2 {
 	}
 	
 	public float length() {
-		return (float) Math.sqrt(length());
+		return (float) Math.sqrt(lengthsq());
+	}
+	
+	public float angle(){
+		return (float) Math.atan2(y, x);
+	}
+	
+	public void transform(Matrix2 mat) {
+		float tx = mat.m00 * x + mat.m10 * y;
+		float ty = mat.m01 * x + mat.m11 * y;
+		x = tx;
+		y = ty;
+	}
+	
+	public void add(Vec2 other) {
+		x += other.x;
+		y += other.y;
+	}
+	
+	public void sub(Vec2 other) {
+		x -= other.x;
+		y -= other.y;
+	}
+	
+	public void scale(Vec2 factor) {
+		x *= factor.x;
+		y *= factor.y;
+	}
+	
+	public void scale(float factor) {
+		x *= factor;
+		y *= factor;
 	}
 }

@@ -6,8 +6,9 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-
 import minusk.render.graphics.Color;
+import minusk.render.math.Matrix2;
+import minusk.render.math.Vec2;
 import minusk.render.util.Shader;
 
 
@@ -121,6 +122,28 @@ public class ColorDrawPass extends DrawPass {
 	
 	public void drawRectangle(float x1, float y1, float x2, float y2, Color color) {
 		drawRectangle(x1, y1, x2, y2, color.intValue());
+	}
+	
+	public void drawLine(float x1, float y1, float x2, float y2, float width, Color c) {
+		drawLine(x1,y1,x2,y2,width,c.intValue());
+	}
+	
+	public void drawLine(float x1, float y1, float x2, float y2, float width, int color) {
+		drawLine(x1, y1, color, width, x2, y2, color, width);
+	}
+	
+	public void drawLine(float x1, float y1, int color1, float width1, float x2, float y2, int color2, float width2) {
+		Vec2 vec = new Vec2(x1-x2, y1-y2);
+		vec.normalize();
+		vec.x /= 2;
+		vec.y /= 2;
+		vec.transform(new Matrix2(0,-1,1,0));
+		drawTriangle(vec.x*width1 + x1, vec.y*width1 + y1, color1,
+				-vec.x*width1 + x1, -vec.y*width1 + y1, color1,
+				vec.x*width2 + x2, vec.y*width2 + y2, color2);
+		drawTriangle(vec.x*width2 + x2, vec.y*width2 + y2, color2,
+				-vec.x*width2 + x2, -vec.y*width2 + y2, color2,
+				-vec.x*width1 + x1, -vec.y*width1 + y1, color1);
 	}
 	
 	private static final String vert = 
