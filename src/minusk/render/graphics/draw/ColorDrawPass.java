@@ -16,15 +16,23 @@ public class ColorDrawPass extends DrawPass {
 	private static Shader colorShader;
 	private static int projloc;
 	
-	public ColorDrawPass(int maxPolygons) {
-		super(maxPolygons, 16);
+	static Shader getColorShader() {
 		if (colorShader == null) {
 			colorShader = new Shader(vert, frag);
 			colorShader.link();
 			colorShader.use();
 			projloc = glGetUniformLocation(colorShader.id, "proj");
 		}
-		shader = colorShader;
+		return colorShader;
+	}
+	
+	static int getProjloc() {
+		return projloc;
+	}
+	
+	public ColorDrawPass(int maxPolygons) {
+		super(maxPolygons, 16);
+		shader = getColorShader();
 		cameraLocation = projloc;
 	}
 	

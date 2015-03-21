@@ -47,6 +47,12 @@ public class Vec2 {
 		x = tx;
 		y = ty;
 	}
+
+	public void transform(Matrix3 mat) {
+		Vec3 v = new Vec3(x, y, 1);
+		v.transform(mat);
+		set(v.x / v.z, v.y / v.z);
+	}
 	
 	public void add(Vec2 other) {
 		x += other.x;
@@ -66,5 +72,9 @@ public class Vec2 {
 	public void scale(float factor) {
 		x *= factor;
 		y *= factor;
+	}
+	
+	public float dot(Vec2 other) {
+		return x*other.x + y*other.y;
 	}
 }

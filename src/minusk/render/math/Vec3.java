@@ -37,4 +37,13 @@ public class Vec3 {
 	public float length() {
 		return (float) Math.sqrt(lengthsq());
 	}
+	
+	public void transform(Matrix3 mat) {
+		float tx = mat.m00 * x + mat.m10 * y + mat.m20 * z;
+		float ty = mat.m01 * x + mat.m11 * y + mat.m21 * z;
+		float tz = mat.m02 * x + mat.m12 * y + mat.m22 * z;
+		x = tx;
+		y = ty;
+		z = tz;
+	}
 }
