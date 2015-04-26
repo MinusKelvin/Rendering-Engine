@@ -5,8 +5,8 @@ import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.opengl.GL11.GL_COLOR;
 import static org.lwjgl.opengl.GL11.GL_DEPTH;
 import static org.lwjgl.opengl.GL30.glClearBuffer;
-
 import minusk.render.graphics.draw.DrawPass;
+import minusk.render.graphics.globjects.Framebuffer;
 import minusk.render.interfaces.Renderable;
 import minusk.render.interfaces.Updateable;
 import minusk.render.util.Util;
@@ -18,6 +18,7 @@ public abstract class Game implements Updateable, Renderable {
 	
 	public Game(int width, int height, String title, int samples) {
 		window = Window.createWindow(width, height, title, samples);
+		Framebuffer.setDefaultFramebufferDimensions(width, height);
 	}
 	
 	protected void gameloop(double gamespeed, int maxFrameskip) {
