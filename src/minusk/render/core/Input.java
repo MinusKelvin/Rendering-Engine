@@ -65,7 +65,7 @@ public class Input {
 	private boolean[] mousetap = new boolean[GLFW_MOUSE_BUTTON_LAST + 1];
 	private double mousex, mousey, scrollx, scrolly;
 	private StringBuilder typedThisFrame = new StringBuilder();
-	private boolean cursorIn=true, shouldClose, focused=true, iconified;
+	private boolean cursorIn=false, shouldClose, focused=true, iconified;
 	private int fboWidth, fboHeight, windowWidth, windowHeight, windowX, windowY;
 
 	private KeyCallback key;

@@ -18,7 +18,8 @@ public class ColorDrawPass extends DrawPass {
 	
 	static Shader getColorShader() {
 		if (colorShader == null) {
-			colorShader = new Shader(vert, frag);
+			colorShader = new Shader(ColorDrawPass.class.getResourceAsStream("/minusk/render/graphics/draw/shaders/color.vs"),
+					ColorDrawPass.class.getResourceAsStream("/minusk/render/graphics/draw/shaders/color.fs"));
 			colorShader.link();
 			colorShader.use();
 			projloc = glGetUniformLocation(colorShader.id, "proj");
@@ -153,30 +154,4 @@ public class ColorDrawPass extends DrawPass {
 				-vec.x*width2 + x2, -vec.y*width2 + y2, color2,
 				-vec.x*width1 + x1, -vec.y*width1 + y1, color1);
 	}
-	
-	private static final String vert = 
-			  "#version 330 core                           \n"
-			+ "                                            \n"
-			+ "layout(location = 0) in vec3 pos;           \n"
-			+ "layout(location = 1) in vec4 color;         \n"
-			+ "                                            \n"
-			+ "uniform mat4 proj;                          \n"
-			+ "                                            \n"
-			+ "out vec4 col;                               \n"
-			+ "                                            \n"
-			+ "void main() {                               \n"
-			+ "    gl_Position = proj * vec4(pos, 1.0);    \n"
-			+ "    col = color;                            \n"
-			+ "}                                           \n",
-			  
-			frag =
-			  "#version 330 core                           \n"
-			+ "                                            \n"
-			+ "in vec4 col;                                \n"
-			+ "                                            \n"
-			+ "out vec4 color;                             \n"
-			+ "                                            \n"
-			+ "void main() {                               \n"
-			+ "    color = col;                            \n"
-			+ "}                                           \n";
 }
