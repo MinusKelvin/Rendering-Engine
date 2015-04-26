@@ -13,6 +13,7 @@ import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
 import static org.lwjgl.opengl.GL15.GL_WRITE_ONLY;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL15.glMapBuffer;
 import static org.lwjgl.opengl.GL15.glUnmapBuffer;
@@ -24,7 +25,7 @@ import java.nio.ByteBuffer;
 
 import minusk.render.graphics.Camera;
 import minusk.render.graphics.filters.BlendFunc;
-import minusk.render.util.Shader;
+import minusk.render.graphics.globjects.Shader;
 import minusk.render.util.Util;
 
 /**
@@ -106,8 +107,18 @@ public abstract class DrawPass {
 		blend = blendFunc;
 	}
 	
+	public void setShader(Shader s, int cameraLocation) {
+		shader = s;
+		this.cameraLocation = cameraLocation;
+	}
+	
 	protected abstract void preRender();
 	protected abstract void postRender();
+	
+	@Override
+	protected void finalize() {
+		glDeleteBuffers(buffer);
+	}
 	
 	public static void initialize() {
 		glEnable(GL_BLEND);
