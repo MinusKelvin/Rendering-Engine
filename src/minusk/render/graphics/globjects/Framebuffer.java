@@ -9,14 +9,13 @@ import static org.lwjgl.opengl.GL30.GL_DEPTH_ATTACHMENT;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.GL_STENCIL_ATTACHMENT;
 import static org.lwjgl.opengl.GL30.glBindFramebuffer;
-import static org.lwjgl.opengl.GL30.glClearBuffer;
+import static org.lwjgl.opengl.GL30.glClearBufferfv;
 import static org.lwjgl.opengl.GL30.glDeleteFramebuffers;
 import static org.lwjgl.opengl.GL30.glGenFramebuffers;
 import static org.lwjgl.opengl.GL32.glFramebufferTexture;
 
 import java.util.Arrays;
 
-import minusk.render.core.Game;
 import minusk.render.util.Util;
 
 public class Framebuffer {
@@ -47,8 +46,8 @@ public class Framebuffer {
 		glViewport(0,0,viewWidth,viewHeight);
 		for (int i : activeDrawBufs)
 			if (i != GL_DEPTH_ATTACHMENT && i != GL_STENCIL_ATTACHMENT)
-				glClearBuffer(GL_COLOR, i-GL_COLOR_ATTACHMENT0, Util.toBuffer(new float[] {0,0,0,0}));
-		glClearBuffer(GL_DEPTH, 0, Util.toBuffer(new int[] {0}));
+				glClearBufferfv(GL_COLOR, i-GL_COLOR_ATTACHMENT0, Util.toBuffer(new float[] {0,0,0,0}));
+		glClearBufferfv(GL_DEPTH, 0, Util.toBuffer(new float[] {0}));
 	}
 	
 	public Texture attachTextures(Texture tex, int index, int mipmapLevel) {

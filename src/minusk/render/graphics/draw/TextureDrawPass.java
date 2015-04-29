@@ -117,11 +117,11 @@ public class TextureDrawPass extends DrawPass {
 			+ "												\n"
 			+ "in vec2 texcoord;							\n"
 			+ "												\n"
-			+ "uniform sampler2D texture;					\n"
+			+ "uniform sampler2D tex;						\n"
 			+ "												\n"
 			+ "out vec4 color;								\n"
 			+ "												\n"
 			+ "void main() {								\n"
-			+ "    color = texture(texture, texcoord);		\n"
+			+ "    color = texture(tex, texcoord);			\n"
 			+ "}											\n";
 }

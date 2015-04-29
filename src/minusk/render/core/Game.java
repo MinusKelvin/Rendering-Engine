@@ -4,7 +4,10 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.opengl.GL11.GL_COLOR;
 import static org.lwjgl.opengl.GL11.GL_DEPTH;
-import static org.lwjgl.opengl.GL30.glClearBuffer;
+import static org.lwjgl.opengl.GL30.glClearBufferfv;
+
+import java.util.concurrent.locks.LockSupport;
+
 import minusk.render.graphics.draw.DrawPass;
 import minusk.render.graphics.globjects.Framebuffer;
 import minusk.render.interfaces.Renderable;
@@ -45,8 +48,8 @@ public abstract class Game implements Updateable, Renderable {
 				if (currenttime - updatetime > iters * updateInterval)
 					lastup = currenttime;
 
-				glClearBuffer(GL_COLOR, 0, Util.toBuffer(new float[] {0,0,0,0}));
-				glClearBuffer(GL_DEPTH, 0, Util.toBuffer(new float[] {1}));
+				glClearBufferfv(GL_COLOR, 0, Util.toBuffer(new float[] {0,0,0,0}));
+				glClearBufferfv(GL_DEPTH, 0, Util.toBuffer(new float[] {1}));
 				render();
 				
 				window.update();
@@ -55,12 +58,10 @@ public abstract class Game implements Updateable, Renderable {
 				glfwPollEvents();
 				lastup += glfwGetTime() - polltime;
 				
-				try {
-					currenttime = glfwGetTime();
-					if ((int) ((updateInterval - (currenttime - lastup)) * 1000) > 0)
-						Thread.sleep((int) ((updateInterval - (currenttime - lastup)) * 1000));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				currenttime = glfwGetTime();
+				if ((int) ((updateInterval - (currenttime - lastup)) * 1000) > 0) {
+					double waittime = (updateInterval - (currenttime - lastup));
+					LockSupport.parkNanos((long) (waittime * 1000000000));
 				}
 			}
 		}

@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL15.glMapBuffer;
 import static org.lwjgl.opengl.GL15.glUnmapBuffer;
-import static org.lwjgl.opengl.GL20.glUniformMatrix4;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
@@ -72,10 +72,10 @@ public abstract class DrawPass {
 		
 		
 		if (camera == null)
-			glUniformMatrix4(cameraLocation, false, Util.toBuffer(new float[] {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1}));
+			glUniformMatrix4fv(cameraLocation, false, Util.toBuffer(new float[] {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1}));
 		else {
 			camera.update();
-			glUniformMatrix4(cameraLocation, false, Util.toBuffer(camera.combined));
+			glUniformMatrix4fv(cameraLocation, false, Util.toBuffer(camera.combined));
 		}
 
 		glBindBuffer(GL_ARRAY_BUFFER, buffer);
