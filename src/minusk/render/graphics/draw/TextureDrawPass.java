@@ -11,6 +11,8 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 import minusk.render.graphics.globjects.Shader;
 import minusk.render.graphics.globjects.Texture;
+import minusk.render.math.Matrix2;
+import minusk.render.math.Vec2;
 
 public class TextureDrawPass extends DrawPass {
 	private static Shader textureShader;
@@ -75,6 +77,24 @@ public class TextureDrawPass extends DrawPass {
 		mapped.putFloat(v3);
 		
 		polys++;
+	}
+	
+	public void drawTriangle(float x1, float y1, float u1, float v1,
+			float x2, float y2, float u2, float v2,
+			float x3, float y3, float u3, float v3, float z) {
+		drawTriangle(x1, y1, z, u1, v1, x2, y2, z, u2, v2, x3, y3, z, u3, v3);
+	}
+	
+	public void drawTriangle(float x1, float y1, float u1, float v1,
+			float x2, float y2, float u2, float v2,
+			float x3, float y3, float u3, float v3) {
+		drawTriangle(x1, y1, u1, v1, x2, y2, u2, v2, x3, y3, u3, v3, 0);
+	}
+	
+	public void drawRectangle(float x1, float y1, float u1, float v1,
+			float x2, float y2, float u2, float v2) {
+		drawTriangle(x1, y1, u1, v1, x1, y2, u1, v2, x2, y2, u2, v2);
+		drawTriangle(x1, y1, u1, v1, x2, y2, u2, v2, x2, y1, u2, v1);
 	}
 	
 	private static final String vert =
