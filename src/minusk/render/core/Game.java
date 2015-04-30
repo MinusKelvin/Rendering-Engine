@@ -63,10 +63,8 @@ public abstract class Game implements Updateable, Renderable {
 					double waittime = (updateInterval - (currenttime - lastup));
 					while (glfwGetTime() - currenttime < waittime)
 						Thread.yield();
-					System.out.println((glfwGetTime() - currenttime) > 0.017);
 				}
 			}
-			System.out.println("refresh");
 		}
 		
 		cleanUp();
