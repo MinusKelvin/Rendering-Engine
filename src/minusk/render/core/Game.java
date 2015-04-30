@@ -61,9 +61,12 @@ public abstract class Game implements Updateable, Renderable {
 				currenttime = glfwGetTime();
 				if ((int) ((updateInterval - (currenttime - lastup)) * 1000) > 0) {
 					double waittime = (updateInterval - (currenttime - lastup));
-					LockSupport.parkNanos((long) (waittime * 1000000000));
+					while (glfwGetTime() - currenttime < waittime)
+						Thread.yield();
+					System.out.println((glfwGetTime() - currenttime) > 0.017);
 				}
 			}
+			System.out.println("refresh");
 		}
 		
 		cleanUp();
