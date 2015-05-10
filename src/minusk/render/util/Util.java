@@ -102,6 +102,20 @@ public class Util {
 			s += numbers[i];
 		return s;
 	}
+
+	public static float sum(float[] numbers) {
+		float s = 0;
+		for (int i = 0; i < numbers.length; i++)
+			s += numbers[i];
+		return s;
+	}
+
+	public static float sum(float[] numbers, int limit) {
+		float s = 0;
+		for (int i = 0; i < numbers.length && i < limit; i++)
+			s += numbers[i];
+		return s;
+	}
 	
 	public static boolean all(boolean[] values) {
 		for (int i = 0; i < values.length; i++)
