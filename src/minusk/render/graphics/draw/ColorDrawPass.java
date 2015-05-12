@@ -138,20 +138,28 @@ public class ColorDrawPass extends DrawPass {
 	}
 	
 	public void drawLine(float x1, float y1, float x2, float y2, float width, int color) {
-		drawLine(x1, y1, color, width, x2, y2, color, width);
+		drawLine(x1, y1, x2, y2, width, color);
 	}
 	
-	public void drawLine(float x1, float y1, int color1, float width1, float x2, float y2, int color2, float width2) {
+	public void drawLine(float x1, float y1, float x2, float y2, float width, float z, Color c) {
+		drawLine(x1,y1,x2,y2,width,z,c.intValue());
+	}
+	
+	public void drawLine(float x1, float y1, float x2, float y2, float width, float z, int c) {
+		drawLine(x1,y1,z,c,width,x2,y2,z,c,width);
+	}
+	
+	public void drawLine(float x1, float y1, float z1, int color1, float width1, float x2, float y2, float z2, int color2, float width2) {
 		Vec2 vec = new Vec2(x1-x2, y1-y2);
 		vec.normalize();
 		vec.x /= 2;
 		vec.y /= 2;
 		vec.transform(new Matrix2(0,-1,1,0));
-		drawTriangle(vec.x*width1 + x1, vec.y*width1 + y1, color1,
-				-vec.x*width1 + x1, -vec.y*width1 + y1, color1,
-				vec.x*width2 + x2, vec.y*width2 + y2, color2);
-		drawTriangle(vec.x*width2 + x2, vec.y*width2 + y2, color2,
-				-vec.x*width2 + x2, -vec.y*width2 + y2, color2,
-				-vec.x*width1 + x1, -vec.y*width1 + y1, color1);
+		drawTriangle(vec.x*width1 + x1, vec.y*width1 + y1, z1, color1,
+				-vec.x*width1 + x1, -vec.y*width1 + y1, z1, color1,
+				vec.x*width2 + x2, vec.y*width2 + y2, z2, color2);
+		drawTriangle(vec.x*width2 + x2, vec.y*width2 + y2, z2, color2,
+				-vec.x*width2 + x2, -vec.y*width2 + y2, z2, color2,
+				-vec.x*width1 + x1, -vec.y*width1 + y1, z1, color1);
 	}
 }
