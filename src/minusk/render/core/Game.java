@@ -39,7 +39,7 @@ public abstract class Game implements Updateable, Renderable {
 				
 				double updatetime = glfwGetTime();
 				int iters = 0;
-				while ((int) ((time-lastup)/updateInterval) > 0 || iters >= maxFrameskip) {
+				while ((int) ((time-lastup)/updateInterval) > 0 && iters <= maxFrameskip) {
 					update();
 					lastup += updateInterval;
 					iters++;
@@ -61,7 +61,8 @@ public abstract class Game implements Updateable, Renderable {
 				currenttime = glfwGetTime();
 				if ((int) ((updateInterval - (currenttime - lastup)) * 1000) > 0) {
 					double waittime = (updateInterval - (currenttime - lastup));
-					while (glfwGetTime() - currenttime < waittime)
+					double val = 0;
+					while ((val = glfwGetTime()) - currenttime < waittime && val != 0)
 						Thread.yield();
 				}
 			}
