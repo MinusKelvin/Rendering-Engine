@@ -47,7 +47,7 @@ public class Framebuffer {
 		for (int i : activeDrawBufs)
 			if (i != GL_DEPTH_ATTACHMENT && i != GL_STENCIL_ATTACHMENT)
 				glClearBufferfv(GL_COLOR, i-GL_COLOR_ATTACHMENT0, Util.toBuffer(new float[] {0,0,0,0}));
-		glClearBufferfv(GL_DEPTH, 0, Util.toBuffer(new float[] {0}));
+		glClearBufferfv(GL_DEPTH, 0, Util.toBuffer(new float[] {1}));
 	}
 	
 	public Texture attachTextures(Texture tex, int index, int mipmapLevel) {

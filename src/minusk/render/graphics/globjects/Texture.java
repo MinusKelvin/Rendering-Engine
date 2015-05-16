@@ -24,7 +24,7 @@ import minusk.render.util.Util;
 public class Texture {
 	public final int width, height, mipmapLevels, id;
 	
-	public Texture(int width, int height, int mipmapLevels, boolean hdr) {
+	public Texture(int width, int height, int mipmapLevels, boolean hdr, int samples) { // TODO add samples
 		id = glGenTextures();
 		this.width = width;
 		this.height = height;
