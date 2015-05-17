@@ -16,6 +16,7 @@ import static org.lwjgl.opengl.GL32.glFramebufferTexture;
 
 import java.util.Arrays;
 
+import minusk.render.graphics.Color;
 import minusk.render.util.Util;
 
 public class Framebuffer {
@@ -25,6 +26,7 @@ public class Framebuffer {
 	private Texture[] colorAttachments = new Texture[16];
 	private DepthStencilBuffer depthStencil;
 	private int[] activeDrawBufs = new int[0];
+	private Color clearColor = Color.Transparent_Black;
 	
 	/**
 	 * Creates a new <code>Framebuffer</code> for use with off-screen rendering.
@@ -46,7 +48,8 @@ public class Framebuffer {
 		glViewport(0,0,viewWidth,viewHeight);
 		for (int i : activeDrawBufs)
 			if (i != GL_DEPTH_ATTACHMENT && i != GL_STENCIL_ATTACHMENT)
-				glClearBufferfv(GL_COLOR, i-GL_COLOR_ATTACHMENT0, Util.toBuffer(new float[] {0,0,0,0}));
+				glClearBufferfv(GL_COLOR, i-GL_COLOR_ATTACHMENT0, Util.toBuffer(
+						new float[] {clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA()}));
 		glClearBufferfv(GL_DEPTH, 0, Util.toBuffer(new float[] {1}));
 	}
 	
@@ -92,6 +95,10 @@ public class Framebuffer {
 		DepthStencilBuffer old = depthStencil;
 		depthStencil = buf;
 		return old;
+	}
+	
+	public void setClearColor(Color color) {
+		clearColor = color;
 	}
 	
 	public static void useDefaultFramebuffer() {
