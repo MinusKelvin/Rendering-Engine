@@ -21,9 +21,10 @@ import minusk.render.util.Util;
 
 public class Framebuffer {
 	private static int defaultWidth, defaultHeight;
-	private final int id;
+	public final int id;
 	private int viewWidth, viewHeight;
-	private Texture[] colorAttachments = new Texture[16];
+	private Texture[] colorAttachments0 = new Texture[16];
+	private MultisampledTexture[] colorAttachments1 = new MultisampledTexture[16];
 	private DepthStencilBuffer depthStencil;
 	private int[] activeDrawBufs = new int[0];
 	private Color clearColor = Color.Transparent_Black;
@@ -53,11 +54,11 @@ public class Framebuffer {
 		glClearBufferfv(GL_DEPTH, 0, Util.toBuffer(new float[] {1}));
 	}
 	
-	public Texture attachTextures(Texture tex, int index, int mipmapLevel) {
+	public void attachTextures(Texture tex, int index, int mipmapLevel) {
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
 		if (tex == null) {
 			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, 0, 0);
-			if (colorAttachments[index] != null) {
+			if (colorAttachments0[index] != null || colorAttachments1[index] != null) {
 				for (int i = 0; i < activeDrawBufs.length; i++) {
 					if (activeDrawBufs[i] == GL_COLOR_ATTACHMENT0 + index) {
 						int[] newbufs = new int[activeDrawBufs.length-1];
@@ -74,7 +75,7 @@ public class Framebuffer {
 			}
 		} else {
 			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, tex.id, mipmapLevel);
-			if (colorAttachments[index] == null) {
+			if (colorAttachments0[index] == null && colorAttachments1[index] == null) {
 				activeDrawBufs = Arrays.copyOf(activeDrawBufs, activeDrawBufs.length+1);
 				activeDrawBufs[activeDrawBufs.length-1] = GL_COLOR_ATTACHMENT0 + index;
 			}
@@ -82,9 +83,41 @@ public class Framebuffer {
 		glDrawBuffers(Util.toBuffer(activeDrawBufs));
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		
-		Texture old = colorAttachments[index];
-		colorAttachments[index] = tex;
-		return old;
+		colorAttachments0[index] = tex;
+		colorAttachments1[index] = null;
+	}
+
+	public void attachTextures(MultisampledTexture tex, int index) {
+		glBindFramebuffer(GL_FRAMEBUFFER, id);
+		if (tex == null) {
+			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, 0, 0);
+			if (colorAttachments0[index] != null || colorAttachments1[index] != null) {
+				for (int i = 0; i < activeDrawBufs.length; i++) {
+					if (activeDrawBufs[i] == GL_COLOR_ATTACHMENT0 + index) {
+						int[] newbufs = new int[activeDrawBufs.length-1];
+						for (int j = 0; j < activeDrawBufs.length; j++) {
+							if (j > i)
+								newbufs[j-1] = activeDrawBufs[j];
+							else if (j < i)
+								newbufs[j] = activeDrawBufs[j];
+						}
+						activeDrawBufs = newbufs;
+						break;
+					}
+				}
+			}
+		} else {
+			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, tex.id, 0);
+			if (colorAttachments0[index] == null && colorAttachments1[index] == null) {
+				activeDrawBufs = Arrays.copyOf(activeDrawBufs, activeDrawBufs.length+1);
+				activeDrawBufs[activeDrawBufs.length-1] = GL_COLOR_ATTACHMENT0 + index;
+			}
+		}
+		glDrawBuffers(Util.toBuffer(activeDrawBufs));
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		
+		colorAttachments0[index] = null;
+		colorAttachments1[index] = tex;
 	}
 	
 	public DepthStencilBuffer setDepthStencil(DepthStencilBuffer buf) {

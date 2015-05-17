@@ -8,6 +8,7 @@ import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glDepthFunc;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
 import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glGetError;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
 import static org.lwjgl.opengl.GL15.GL_WRITE_ONLY;
@@ -22,6 +23,8 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 import java.nio.ByteBuffer;
+
+import org.lwjgl.opengl.GLContext;
 
 import minusk.render.graphics.Camera;
 import minusk.render.graphics.filters.BlendFunc;
@@ -80,8 +83,10 @@ public abstract class DrawPass {
 
 		glBindBuffer(GL_ARRAY_BUFFER, buffer);
 		preRender();
-		
+
+		System.out.println(GLContext.translateGLErrorString(glGetError()));
 		glDrawArrays(GL_TRIANGLES, 0, polys*3);
+		System.out.println(GLContext.translateGLErrorString(glGetError()));
 		
 		postRender();
 	}
