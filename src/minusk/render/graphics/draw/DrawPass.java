@@ -84,9 +84,7 @@ public abstract class DrawPass {
 		glBindBuffer(GL_ARRAY_BUFFER, buffer);
 		preRender();
 
-		System.out.println(GLContext.translateGLErrorString(glGetError()));
 		glDrawArrays(GL_TRIANGLES, 0, polys*3);
-		System.out.println(GLContext.translateGLErrorString(glGetError()));
 		
 		postRender();
 	}
