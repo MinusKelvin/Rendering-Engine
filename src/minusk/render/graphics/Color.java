@@ -2,7 +2,7 @@ package minusk.render.graphics;
 
 import minusk.render.graphics.filters.BlendFunc;
 
-public class Color {
+public class Color implements Cloneable {
 	private float r,g,b,a;
 	
 	public Color(float r, float g, float b, float a) {
@@ -22,6 +22,13 @@ public class Color {
 	
 	public Color(int r, int g, int b) {
 		this(r,g,b,255);
+	}
+	
+	public Color(Color copyFrom) {
+		r = copyFrom.r;
+		g = copyFrom.g;
+		b = copyFrom.b;
+		a = copyFrom.a;
 	}
 	
 	public Color blend(Color dst, BlendFunc blendFunc) {
@@ -172,6 +179,23 @@ public class Color {
 	}
 	public int intValue() {
 		return getIntA() << 24 | getIntB() << 16 | getIntG() << 8 | getIntR();
+	}
+	
+	@Override
+	public int hashCode() {
+		int hash = Float.floatToRawIntBits(r);
+		hash = hash * 37 + Float.floatToRawIntBits(g);
+		hash = hash * 37 + Float.floatToRawIntBits(b);
+		hash = hash * 37 + Float.floatToRawIntBits(a);
+		return hash;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Color))
+			return false;
+		Color obj = (Color) o;
+		return r == obj.r && g == obj.g && b == obj.b && a == obj.a;
 	}
 	
 	public static final Color Transparent_Black	= new Color(0, 0, 0, 0);
