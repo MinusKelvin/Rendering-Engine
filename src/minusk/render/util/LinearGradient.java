@@ -28,24 +28,20 @@ public class LinearGradient {
 	}
 	
 	public Color get(float position) {
+		final float originalPosition = position;
 		switch (wrapMode) {
 			case CLAMP:
 				position = Math.max(Math.min(position, 1), 0);
 				break;
 			case REPEAT:
-				position -= (int) (position);
-				if (position < 0 )
-					position += 1;
-				assert(position >= 0);
+				if (position != 0)
+					position -= Math.ceil(position - 1);
 				break;
 			case MIRRORED_REPEAT:
-				if (position < 0)
-					position = position - (float) Math.floor(position);
-				position %= 2;
-				if (position > 1)
-					position = 1 - position;
-				break;
+				throw new UnsupportedOperationException("Not Yet Implemented");
+				/*break;*/
 		}
+		assert position >= 0 && position <= 1 : "Erroneous condition: wrapMode="+wrapMode+" position="+originalPosition;
 		
 		Stop last = stops.get(0);
 		for (int i = 1; i < stops.size(); last = stops.get(i++)) {
@@ -69,8 +65,9 @@ public class LinearGradient {
 	}
 	
 	public void setWrapMode(WrapMode mode) {
-		if (mode != null)
-			wrapMode = mode;
+		if (mode == null)
+			throw new IllegalArgumentException("mode == null!");
+		wrapMode = mode;
 	}
 	
 	public WrapMode getWrapMode() {
@@ -81,7 +78,11 @@ public class LinearGradient {
 		private Color color;
 		private float position;
 		
-		public Stop(Color color,  float position) {
+		public Stop(Color color, float position) {
+			if (color == null)
+				throw new IllegalArgumentException("color == null!");
+			if (position < 0 || position > 1)
+				throw new IllegalArgumentException("position not in range 0 - 1 (inclusive, inclusive)");
 			this.color = color;
 			this.position = position;
 		}
