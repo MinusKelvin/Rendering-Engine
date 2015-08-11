@@ -14,8 +14,30 @@ public class Test extends Game {
 	private Vec2 pos = new Vec2();
 	private ParticleSystem particles;
 	
+	private Color[] colors = {
+			new Color(2,2,2),
+			new Color(2,2,1),
+			new Color(2,2,0),
+			new Color(2,1,2),
+			new Color(2,1,1),
+			new Color(2,1,0),
+			new Color(2,0,2),
+			new Color(2,0,1),
+			new Color(2,0,0),
+			new Color(1,2,2),
+			new Color(1,2,1),
+			new Color(1,2,0),
+			new Color(1,1,2),
+			new Color(1,0,2),
+			new Color(0,2,2),
+			new Color(0,2,1),
+			new Color(0,2,0),
+			new Color(0,1,2),
+			new Color(0,0,2),
+	};
+	
 	public Test() {
-		super(1280, 720, "Game", 8);
+		super(1024, 576, "Game", 8);
 	}
 
 	public static void main(String[] args) {
@@ -29,18 +51,19 @@ public class Test extends Game {
 		
 		particles.update();
 		
-//		for (int x = -6; x <= 6; x++) {
-			for (int i = 0; i < 10; i++) {
-				float velx = 1;//(float) (0.5 - Math.random());
+		for (int x = -9; x <= 9; x++) {
+			for (int i = 0; i < 7; i++) {
+				float velx = /*1;//*/(float) (0.5 - Math.random());
 				float vely = (float) (0.5 - Math.random());
 				float tmp = (float) Math.hypot(velx, vely);
 				velx /= tmp;
 				vely /= tmp;
-				particles.generateParticle(/*x / 4f*/-1.7f, 0,
-						velx * 0.029f /** (float) Math.random()*/, vely * 0.008f * (float) Math.random(),
-						(float) (Math.random() * Math.PI * 2), (float) Math.random() * 0.05f, 0.02f, 1, null);
+				particles.generateParticle(x / 6f, 0,
+						velx * 0.002f * (float) Math.random(), vely * 0.005f * (float) Math.random(),
+						(float) (Math.random() * Math.PI * 2), (float) Math.random() * 0.05f, 0.07f, 1,
+						colors[x+9]);
 			}
-//		}
+		}
 	}
 
 	@Override
@@ -53,19 +76,14 @@ public class Test extends Game {
 //		Texture2DArray texture = new Texture2DArray(16, 16, 1, 1, true);
 //		texture.setTextureData(getClass().getResourceAsStream("/minusk/render/test/test.png"), 0, 0);
 		particles = new ParticleSystem();
-		particles.getOptions().colorChange = new LinearGradient(Color.Red,
-				new Color(Color.Red.getR(), Color.Red.getG(), Color.Red.getB(), 0),
-				new LinearGradient.Stop(Color.Yellow,0.15f),
-				new LinearGradient.Stop(Color.Green,0.3f),
-				new LinearGradient.Stop(Color.Cyan,0.45f),
-				new LinearGradient.Stop(Color.Blue,0.6f),
-				new LinearGradient.Stop(Color.Magenta,0.75f),
-				new LinearGradient.Stop(Color.Red,0.9f));
-//		particles.getOptions().gravityY = 0.00015f;
+//		particles.getOptions().colorChange = new LinearGradient(Color.Red,
+//				new Color(Color.Yellow.getR(), Color.Yellow.getG(), Color.Yellow.getB(), 0),
+//				new LinearGradient.Stop(Color.Orange,0.75f));
+		particles.getOptions().gravityY = 0.00015f;
 		particles.camera = new OrthoCamera(-1.7777777777777777777777777777778f,1.7777777777777777777777777777778f,1,-1);
-		particles.setBlendFunc(BlendFunc.TRANSPARENCY);
-		particles.getOptions().sizeIncrement = 0.0002f;
-		particles.getOptions().timestep = 1/120f;
+		particles.setBlendFunc(BlendFunc.ADDITIVE);
+//		particles.getOptions().sizeIncrement = 0.0005f;
+		particles.getOptions().timestep = 1/60f;
 	}
 
 	@Override

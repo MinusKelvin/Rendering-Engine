@@ -198,6 +198,11 @@ public class Color implements Cloneable {
 		return r == obj.r && g == obj.g && b == obj.b && a == obj.a;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("Color(%f, %f, %f, %f)", r,g,b,a);
+	}
+	
 	public static final Color Transparent_Black	= new Color(0, 0, 0, 0);
 	public static final Color Transparent_White	= new Color(255, 255, 255, 0);
 	

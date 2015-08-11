@@ -138,7 +138,7 @@ public class ParticleSystem extends DrawPass implements Updateable,Renderable {
 			polys++;
 		}
 		public boolean update() {
-			timeExisted += options.timestep * lifespanFactor;
+			timeExisted += options.timestep / lifespanFactor;
 			
 			xvel += options.gravityX;
 			yvel += options.gravityY;
@@ -163,6 +163,6 @@ public class ParticleSystem extends DrawPass implements Updateable,Renderable {
 	
 	public static final class Options {
 		public float gravityX, gravityY, gravityZ, acceleration=1, rotationAcceleration=1, sizeIncrement, timestep = 1/64f;
-		public LinearGradient colorChange;
+		public LinearGradient colorChange = null;
 	}
 }

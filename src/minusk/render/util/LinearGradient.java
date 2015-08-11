@@ -18,6 +18,18 @@ public class LinearGradient {
 		addStops(stps);
 	}
 	
+	public LinearGradient(Color... colors) {
+		if (colors.length < 2)
+			throw new IllegalArgumentException("number of arguments < 2");
+		
+		final float inc = 1f / (colors.length-1);
+		for (int i = 0; i < colors.length; i++) {
+			stops.add(new Stop(colors[i],inc*i));
+		}
+		stops.sort((Stop s1, Stop s2) -> (int) Math.signum(s1.position - s2.position));
+		assert stops.get(0).position == 0 && stops.get(stops.size()-1).position == 1 : "Condition: inc="+inc+" colors.length="+colors.length;
+	}
+
 	public void addStop(Color color, float position) {
 		addStops(new Stop(color, position));
 	}
@@ -45,8 +57,6 @@ public class LinearGradient {
 		
 		Stop last = stops.get(0);
 		for (int i = 1; i < stops.size(); last = stops.get(i++)) {
-			if (last == null)
-				continue;
 			
 			Stop current = stops.get(i);
 			if (position <= current.position) {
@@ -61,7 +71,7 @@ public class LinearGradient {
 				);
 			}
 		}
-		throw new AssertionError();
+		throw new AssertionError("Erroneous condition: position="+position+" stops="+stops);
 	}
 	
 	public void setWrapMode(WrapMode mode) {
@@ -85,6 +95,11 @@ public class LinearGradient {
 				throw new IllegalArgumentException("position not in range 0 - 1 (inclusive, inclusive)");
 			this.color = color;
 			this.position = position;
+		}
+		
+		@Override
+		public String toString() {
+			return "LinearGradient.Stop("+color+", "+position+")";
 		}
 	}
 	
