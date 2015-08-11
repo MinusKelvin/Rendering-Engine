@@ -1,16 +1,11 @@
 package minusk.render.util;
 
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-
 import minusk.render.math.Matrix4;
-import static java.lang.Math.min;
-import static java.lang.Math.max;
-import static java.lang.Math.sqrt;
+
+import java.nio.*;
+
+import static java.lang.Math.*;
 
 /**
  * General utilities, from distance calculations to creating direct <code>java.nio.ByteBuffer</code>s.
@@ -91,8 +86,7 @@ public class Util {
 
 	public static int sum(int[] numbers) {
 		int s = 0;
-		for (int i = 0; i < numbers.length; i++)
-			s += numbers[i];
+		for (int number : numbers) s += number;
 		return s;
 	}
 
@@ -105,8 +99,7 @@ public class Util {
 
 	public static float sum(float[] numbers) {
 		float s = 0;
-		for (int i = 0; i < numbers.length; i++)
-			s += numbers[i];
+		for (float number : numbers) s += number;
 		return s;
 	}
 
@@ -118,39 +111,33 @@ public class Util {
 	}
 	
 	public static boolean all(boolean[] values) {
-		for (int i = 0; i < values.length; i++)
-			if (!values[i])
+		for (boolean value : values)
+			if (!value)
 				return false;
 		return true;
 	}
 	
 	public static boolean any(boolean[] values) {
-		for (int i = 0; i < values.length; i++)
-			if (values[i])
+		for (boolean value : values)
+			if (value)
 				return true;
 		return false;
 	}
 	
 	public static boolean all(boolean[][] values) {
-		for (int i = 0; i < values.length; i++)
-			for (int j = 0; j < values[i].length; j++)
-				if (!values[i][j])
+		for (boolean[] value : values)
+			for (boolean aValue : value)
+				if (!aValue)
 					return false;
 		return true;
 	}
 	
 	public static boolean any(boolean[][] values) {
-		for (int i = 0; i < values.length; i++)
-			for (int j = 0; j < values[i].length; j++)
-				if (values[i][j])
+		for (boolean[] value : values)
+			for (boolean aValue : value)
+				if (aValue)
 					return true;
 		return false;
-	}
-
-	public static void copyTo(float[] from, float[] to, int indexOffset) {
-		for (int i = 0; i < from.length; i++) {
-			to[i+indexOffset] = from[i];
-		}
 	}
 
 	public static boolean range(float number, float value, float range) {

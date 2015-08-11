@@ -1,35 +1,14 @@
 package minusk.render.graphics.globjects;
 
 
+import java.io.*;
+
 import static org.lwjgl.opengl.GL11.GL_TRUE;
-import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
-import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
-import static org.lwjgl.opengl.GL20.GL_INFO_LOG_LENGTH;
-import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
-import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
-import static org.lwjgl.opengl.GL20.glAttachShader;
-import static org.lwjgl.opengl.GL20.glCompileShader;
-import static org.lwjgl.opengl.GL20.glCreateProgram;
-import static org.lwjgl.opengl.GL20.glCreateShader;
-import static org.lwjgl.opengl.GL20.glDeleteProgram;
-import static org.lwjgl.opengl.GL20.glDeleteShader;
-import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
-import static org.lwjgl.opengl.GL20.glGetProgrami;
-import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
-import static org.lwjgl.opengl.GL20.glGetShaderi;
-import static org.lwjgl.opengl.GL20.glLinkProgram;
-import static org.lwjgl.opengl.GL20.glShaderSource;
-import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 import static org.lwjgl.opengl.GL40.GL_TESS_CONTROL_SHADER;
 import static org.lwjgl.opengl.GL40.GL_TESS_EVALUATION_SHADER;
 import static org.lwjgl.opengl.GL43.GL_COMPUTE_SHADER;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
 public class Shader {
 	public final String vertexSource;
@@ -165,7 +144,7 @@ public class Shader {
 		}
 		vertexSource = vs.toString();
 		fragmentSource = fs.toString();
-		geometrySource = fs.toString();
+		geometrySource = gs.toString();
 		if (success)
 			id = load();
 		else
@@ -256,9 +235,9 @@ public class Shader {
 		}
 		vertexSource = vs.toString();
 		fragmentSource = fs.toString();
-		tessControlSource = vs.toString();
-		tessEvaluationSource = fs.toString();
-		geometrySource = fs.toString();
+		tessControlSource = ts.toString();
+		tessEvaluationSource = es.toString();
+		geometrySource = gs.toString();
 		if (success)
 			id = load();
 		else
@@ -395,7 +374,8 @@ public class Shader {
 	}
 	
 	@Override
-	protected void finalize() {
+	protected void finalize() throws Throwable {
+		super.finalize();
 		glDeleteProgram(id);
 	}
 }

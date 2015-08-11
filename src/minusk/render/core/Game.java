@@ -1,18 +1,16 @@
 package minusk.render.core;
 
-import static org.lwjgl.glfw.GLFW.glfwGetTime;
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
-import static org.lwjgl.opengl.GL11.GL_COLOR;
-import static org.lwjgl.opengl.GL11.GL_DEPTH;
-import static org.lwjgl.opengl.GL30.glClearBufferfv;
-
-import java.util.concurrent.locks.LockSupport;
-
 import minusk.render.graphics.draw.DrawPass;
 import minusk.render.graphics.globjects.Framebuffer;
 import minusk.render.interfaces.Renderable;
 import minusk.render.interfaces.Updateable;
 import minusk.render.util.Util;
+
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.opengl.GL11.GL_COLOR;
+import static org.lwjgl.opengl.GL11.GL_DEPTH;
+import static org.lwjgl.opengl.GL30.glClearBufferfv;
 
 public abstract class Game implements Updateable, Renderable {
 	private boolean looping;
@@ -61,7 +59,7 @@ public abstract class Game implements Updateable, Renderable {
 				currenttime = glfwGetTime();
 				if ((int) ((updateInterval - (currenttime - lastup)) * 1000) > 0) {
 					double waittime = (updateInterval - (currenttime - lastup));
-					double val = 0;
+					double val;
 					while ((val = glfwGetTime()) - currenttime < waittime && val != 0)
 						Thread.yield();
 				}

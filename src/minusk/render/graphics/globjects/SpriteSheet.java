@@ -1,25 +1,16 @@
 package minusk.render.graphics.globjects;
 
 
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_RGBA8;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glDeleteTextures;
-import static org.lwjgl.opengl.GL11.glGenTextures;
-import static org.lwjgl.opengl.GL11.glTexParameteri;
-import static org.lwjgl.opengl.GL12.GL_BGRA;
-import static org.lwjgl.opengl.GL12.GL_TEXTURE_MAX_LEVEL;
-import static org.lwjgl.opengl.GL12.glTexImage3D;
-import static org.lwjgl.opengl.GL12.glTexSubImage3D;
-import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
+import minusk.render.util.Util;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.imageio.ImageIO;
-
-import minusk.render.util.Util;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.*;
+import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 
 public class SpriteSheet {
 	public final int width, height, mipmapLevels, id, spriteCount;
@@ -117,7 +108,8 @@ public class SpriteSheet {
 	}
 	
 	@Override
-	protected void finalize() {
+	protected void finalize() throws Throwable {
+		super.finalize();
 		glDeleteTextures(id);
 	}
 }

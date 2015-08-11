@@ -1,23 +1,14 @@
 package minusk.render.graphics.globjects;
 
-import static org.lwjgl.opengl.GL11.GL_COLOR;
-import static org.lwjgl.opengl.GL11.GL_DEPTH;
-import static org.lwjgl.opengl.GL11.glViewport;
-import static org.lwjgl.opengl.GL20.glDrawBuffers;
-import static org.lwjgl.opengl.GL30.GL_COLOR_ATTACHMENT0;
-import static org.lwjgl.opengl.GL30.GL_DEPTH_ATTACHMENT;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30.GL_STENCIL_ATTACHMENT;
-import static org.lwjgl.opengl.GL30.glBindFramebuffer;
-import static org.lwjgl.opengl.GL30.glClearBufferfv;
-import static org.lwjgl.opengl.GL30.glDeleteFramebuffers;
-import static org.lwjgl.opengl.GL30.glGenFramebuffers;
-import static org.lwjgl.opengl.GL32.glFramebufferTexture;
+import minusk.render.graphics.Color;
+import minusk.render.util.Util;
 
 import java.util.Arrays;
 
-import minusk.render.graphics.Color;
-import minusk.render.util.Util;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.glDrawBuffers;
+import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL32.glFramebufferTexture;
 
 public class Framebuffer {
 	private static int defaultWidth, defaultHeight;
@@ -32,8 +23,8 @@ public class Framebuffer {
 	/**
 	 * Creates a new <code>Framebuffer</code> for use with off-screen rendering.
 	 * This does not create anything to render to.
-	 * The user must attach textures with {@link attachTexture}
-	 * and attach depth-stencil buffers with {@link setDepthStencil}.
+	 * The user must attach textures with <code>attachTextures</code>
+	 * and attach depth-stencil buffers with <code>setDepthStencil</code>.
 	 * 
 	 * @param width The width of the viewport for this <code>Framebuffer</code>
 	 * @param height The height of the viewport for this <code>Framebuffer</code>
@@ -145,7 +136,8 @@ public class Framebuffer {
 	}
 	
 	@Override
-	protected void finalize() {
+	protected void finalize() throws Throwable {
+		super.finalize();
 		glDeleteFramebuffers(id);
 	}
 }

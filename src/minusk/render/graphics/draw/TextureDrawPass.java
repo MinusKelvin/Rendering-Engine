@@ -1,18 +1,11 @@
 package minusk.render.graphics.draw;
 
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 import minusk.render.graphics.globjects.Shader;
 import minusk.render.graphics.globjects.Texture;
-import minusk.render.math.Matrix2;
-import minusk.render.math.Vec2;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
+import static org.lwjgl.opengl.GL20.*;
 
 public class TextureDrawPass extends DrawPass {
 	private static Shader textureShader;

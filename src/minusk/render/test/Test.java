@@ -7,7 +7,6 @@ import minusk.render.graphics.draw.ColorDrawPass;
 import minusk.render.graphics.draw.ParticleSystem;
 import minusk.render.graphics.filters.BlendFunc;
 import minusk.render.math.Vec2;
-import minusk.render.util.LinearGradient;
 
 public class Test extends Game {
 	private ColorDrawPass test;
@@ -37,7 +36,7 @@ public class Test extends Game {
 	};
 	
 	public Test() {
-		super(1024, 576, "Game", 8);
+		super(1920, 1080, "Game", 8);
 	}
 
 	public static void main(String[] args) {

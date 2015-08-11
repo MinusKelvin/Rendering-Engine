@@ -24,7 +24,7 @@ public class BlendFunc {
 		this.dst = dst;
 	}
 	
-	public static enum BlendOption {
+	public enum BlendOption {
 		ZERO(GL_ZERO),
 		ONE(GL_ONE),
 		ONE_MINUS_DST_ALPHA(GL_ONE_MINUS_DST_ALPHA),
@@ -37,7 +37,7 @@ public class BlendFunc {
 		DST_COLOR(GL_DST_COLOR);
 		
 		public final int glenum;
-		private BlendOption(int glenum) {
+		BlendOption(int glenum) {
 			this.glenum = glenum;
 		}
 	}

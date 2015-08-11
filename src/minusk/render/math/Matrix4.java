@@ -152,27 +152,9 @@ public class Matrix4 {
 	
 	@Override
 	public String toString() {
-		StringBuilder b = new StringBuilder();
-		b.append(m00); b.append("\t");
-		b.append(m10); b.append("\t");
-		b.append(m20); b.append("\t");
-		b.append(m30); b.append("\t");
-		b.append("\n");
-		b.append(m01); b.append("\t");
-		b.append(m11); b.append("\t");
-		b.append(m21); b.append("\t");
-		b.append(m31); b.append("\t");
-		b.append("\n");
-		b.append(m02); b.append("\t");
-		b.append(m12); b.append("\t");
-		b.append(m22); b.append("\t");
-		b.append(m32); b.append("\t");
-		b.append("\n");
-		b.append(m03); b.append("\t");
-		b.append(m13); b.append("\t");
-		b.append(m23); b.append("\t");
-		b.append(m33); b.append("\t");
-		b.append("\n");
-		return b.toString();
+		return m00 + "\t" + m10 + "\t" + m20 + "\t" + m30 + "\t" + "\n" +
+				m01 + "\t" + m11 + "\t" + m21 + "\t" + m31 + "\t" + "\n" +
+				m02 + "\t" + m12 + "\t" + m22 + "\t" + m32 + "\t" + "\n" +
+				m03 + "\t" + m13 + "\t" + m23 + "\t" + m33 + "\t" + "\n";
 	}
 }

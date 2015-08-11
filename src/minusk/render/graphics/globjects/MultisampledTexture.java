@@ -31,7 +31,8 @@ public class MultisampledTexture {
 	}
 	
 	@Override
-	protected void finalize() {
+	protected void finalize() throws Throwable {
+		super.finalize();
 		glDeleteTextures(id);
 	}
 }

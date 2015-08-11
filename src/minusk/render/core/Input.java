@@ -1,62 +1,12 @@
 package minusk.render.core;
 
-import static org.lwjgl.glfw.GLFW.GLFWCharCallback;
-import static org.lwjgl.glfw.GLFW.GLFWCursorEnterCallback;
-import static org.lwjgl.glfw.GLFW.GLFWCursorPosCallback;
-import static org.lwjgl.glfw.GLFW.GLFWDropCallback;
-import static org.lwjgl.glfw.GLFW.GLFWFramebufferSizeCallback;
-import static org.lwjgl.glfw.GLFW.GLFWKeyCallback;
-import static org.lwjgl.glfw.GLFW.GLFWMouseButtonCallback;
-import static org.lwjgl.glfw.GLFW.GLFWScrollCallback;
-import static org.lwjgl.glfw.GLFW.GLFWWindowCloseCallback;
-import static org.lwjgl.glfw.GLFW.GLFWWindowFocusCallback;
-import static org.lwjgl.glfw.GLFW.GLFWWindowIconifyCallback;
-import static org.lwjgl.glfw.GLFW.GLFWWindowPosCallback;
-import static org.lwjgl.glfw.GLFW.GLFWWindowRefreshCallback;
-import static org.lwjgl.glfw.GLFW.GLFWWindowSizeCallback;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LAST;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_UNKNOWN;
-import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LAST;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
-import static org.lwjgl.glfw.GLFW.glfwGetWindowPos;
-import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
-import static org.lwjgl.glfw.GLFW.glfwSetCharCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetCursorEnterCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetDropCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetFramebufferSizeCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowCloseCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowFocusCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowIconifyCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowPosCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowRefreshCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
-import static org.lwjgl.opengl.GL11.GL_TRUE;
+import minusk.render.util.Util;
+import org.lwjgl.glfw.*;
 
 import java.nio.IntBuffer;
 
-import minusk.render.util.Util;
-
-import org.lwjgl.glfw.Callbacks;
-import org.lwjgl.glfw.GLFWCharCallback;
-import org.lwjgl.glfw.GLFWCursorEnterCallback;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
-import org.lwjgl.glfw.GLFWDropCallback;
-import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import org.lwjgl.glfw.GLFWScrollCallback;
-import org.lwjgl.glfw.GLFWWindowCloseCallback;
-import org.lwjgl.glfw.GLFWWindowFocusCallback;
-import org.lwjgl.glfw.GLFWWindowIconifyCallback;
-import org.lwjgl.glfw.GLFWWindowPosCallback;
-import org.lwjgl.glfw.GLFWWindowRefreshCallback;
-import org.lwjgl.glfw.GLFWWindowSizeCallback;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.GL_TRUE;
 
 public class Input {
 	private boolean[] keydown = new boolean[GLFW_KEY_LAST + 1];
@@ -379,99 +329,99 @@ public class Input {
 
 	// EXTRA CALLBACKS
 
-	public static interface KeyCallback {
-		public void invoke(int key, int scancode, int action, int mods);
+	public interface KeyCallback {
+		void invoke(int key, int scancode, int action, int mods);
 	}
 	public void setKeyCallback(KeyCallback method) {
 		key = method;
 	}
 
-	public static interface CharCallback {
-		public void invoke(int character);
+	public interface CharCallback {
+		void invoke(int character);
 	}
 	public void setCharCallback(CharCallback method) {
 		character = method;
 	}
 
-	public static interface ScrollCallback {
-		public void invoke(double x, double y);
+	public interface ScrollCallback {
+		void invoke(double x, double y);
 	}
 	public void setScrollCallback(ScrollCallback method) {
 		scroll = method;
 	}
 
-	public static interface MouseButtonCallback {
-		public void invoke(int button, int action, int mods);
+	public interface MouseButtonCallback {
+		void invoke(int button, int action, int mods);
 	}
 	public void setMouseButtonCallback(MouseButtonCallback method) {
 		mousebutton = method;
 	}
 
-	public static interface CursorPosCallback {
-		public void invoke(double x, double y);
+	public interface CursorPosCallback {
+		void invoke(double x, double y);
 	}
 	public void setCursorPosCallback(CursorPosCallback method) {
 		cursorpos = method;
 	}
 
-	public static interface CursorEnterCallback {
-		public void invoke(int state);
+	public interface CursorEnterCallback {
+		void invoke(int state);
 	}
 	public void setCursorEnterCallback(CursorEnterCallback method) {
 		cursorenter = method;
 	}
 
-	public static interface FramebufferSizeCallback {
-		public void invoke(int width, int height);
+	public interface FramebufferSizeCallback {
+		void invoke(int width, int height);
 	}
 	public void setFramebufferSizeCallback(FramebufferSizeCallback method) {
 		framebuffersize = method;
 	}
 
-	public static interface WindowSizeCallback {
-		public void invoke(int width, int height);
+	public interface WindowSizeCallback {
+		void invoke(int width, int height);
 	}
 	public void setWindowResizeCallback(WindowSizeCallback method) {
 		windowsize = method;
 	}
 
-	public static interface WindowCloseCallback {
-		public void invoke();
+	public interface WindowCloseCallback {
+		void invoke();
 	}
 	public void setWindowCloseCallback(WindowCloseCallback method) {
 		windowclose = method;
 	}
 
-	public static interface WindowFocusCallback {
-		public void invoke(int state);
+	public interface WindowFocusCallback {
+		void invoke(int state);
 	}
 	public void setWindowFocusCallback(WindowFocusCallback method) {
 		windowfocus = method;
 	}
 
-	public static interface WindowIconifyCallback {
-		public void invoke(int state);
+	public interface WindowIconifyCallback {
+		void invoke(int state);
 	}
 	public void setWindowIconifyCallback(WindowIconifyCallback method) {
 		windowiconify = method;
 	}
 
-	public static interface WindowPosCallback {
-		public void invoke(int x, int y);
+	public interface WindowPosCallback {
+		void invoke(int x, int y);
 	}
 	public void setWindowPosCallback(WindowPosCallback method) {
 		windowpos = method;
 	}
 
-	public static interface WindowRefreshCallback {
-		public void invoke();
+	public interface WindowRefreshCallback {
+		void invoke();
 	}
 	public void setWindowRefreshCallback(WindowRefreshCallback method) {
 		windowrefresh = method;
 	}
 
-	public static interface DropCallback {
-		public void invoke(String[] paths);
+	public interface DropCallback {
+		void invoke(String[] paths);
 	}
 	public void setDropCallback(DropCallback method) {
 		drop = method;
