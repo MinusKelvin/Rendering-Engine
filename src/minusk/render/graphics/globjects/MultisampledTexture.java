@@ -1,5 +1,7 @@
 package minusk.render.graphics.globjects;
 
+import minusk.render.interfaces.Disposable;
+
 import static org.lwjgl.opengl.GL11.GL_RGBA8;
 import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glDeleteTextures;
@@ -10,8 +12,9 @@ import static org.lwjgl.opengl.GL32.GL_TEXTURE_2D_MULTISAMPLE;
 import static org.lwjgl.opengl.GL32.GL_TEXTURE_SAMPLES;
 import static org.lwjgl.opengl.GL32.glTexImage2DMultisample;
 
-public class MultisampledTexture {
+public class MultisampledTexture implements Disposable {
 	public final int width, height, samples, id;
+	private boolean disposed = false;
 
 	public MultisampledTexture(int width, int height, int samples, boolean hdr) {
 		id = glGenTextures();
@@ -31,8 +34,15 @@ public class MultisampledTexture {
 	}
 	
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		glDeleteTextures(id);
+	public void dispose() {
+		if (!disposed) {
+			glDeleteTextures(id);
+			disposed = true;
+		}
+	}
+	
+	@Override
+	public boolean isDisposed() {
+		return disposed;
 	}
 }

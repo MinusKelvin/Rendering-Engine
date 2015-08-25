@@ -1,11 +1,14 @@
 package minusk.render.graphics.globjects;
 
+import minusk.render.interfaces.Disposable;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_BGRA;
 import static org.lwjgl.opengl.GL30.GL_DEPTH_STENCIL;
 
-public class DepthStencilBuffer {
+public class DepthStencilBuffer implements Disposable {
 	private final int id, width, height;
+	private boolean disposed = false;
 	
 	public DepthStencilBuffer(int width, int height) {
 		id = glGenTextures();
@@ -31,8 +34,15 @@ public class DepthStencilBuffer {
 	}
 	
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		glDeleteTextures(id);
+	public void dispose() {
+		if (!disposed) {
+			glDeleteTextures(id);
+			disposed = true;
+		}
+	}
+	
+	@Override
+	public boolean isDisposed() {
+		return disposed;
 	}
 }

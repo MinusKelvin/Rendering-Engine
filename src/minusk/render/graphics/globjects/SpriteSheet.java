@@ -1,6 +1,7 @@
 package minusk.render.graphics.globjects;
 
 
+import minusk.render.interfaces.Disposable;
 import minusk.render.util.Util;
 
 import javax.imageio.ImageIO;
@@ -12,8 +13,9 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;
 import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 
-public class SpriteSheet {
+public class SpriteSheet implements Disposable {
 	public final int width, height, mipmapLevels, id, spriteCount;
+	private boolean disposed = false;
 	
 	public SpriteSheet(int width, int height, int spriteCount, int mipmapLevels) {
 		id = glGenTextures();
@@ -108,8 +110,15 @@ public class SpriteSheet {
 	}
 	
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		glDeleteTextures(id);
+	public void dispose() {
+		if (!disposed) {
+			glDeleteTextures(id);
+			disposed = true;
+		}
+	}
+	
+	@Override
+	public boolean isDisposed() {
+		return disposed;
 	}
 }

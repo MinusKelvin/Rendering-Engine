@@ -3,6 +3,7 @@ package minusk.render.graphics.draw;
 import minusk.render.graphics.Camera;
 import minusk.render.graphics.filters.BlendFunc;
 import minusk.render.graphics.globjects.Shader;
+import minusk.render.interfaces.Disposable;
 import minusk.render.util.Util;
 
 import java.nio.ByteBuffer;
@@ -18,12 +19,12 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
  * 
  * @author MinusKelvin
  */
-public abstract class DrawPass {
+public abstract class DrawPass implements Disposable {
 	public static final int DEFAULT_MAX_POLYGONS = 16384;
 	
 	private BlendFunc blend = BlendFunc.TRANSPARENCY;
 	private final int buffer, maxPolys, bytesPerVertex;
-	private boolean hasBegun = false;
+	private boolean hasBegun = false, disposed = false;
 	protected ByteBuffer mapped;
 	protected Shader shader;
 	protected int polys, cameraLocation;
@@ -101,9 +102,16 @@ public abstract class DrawPass {
 	protected abstract void postRender();
 	
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		glDeleteBuffers(buffer);
+	public void dispose() {
+		if (!disposed) {
+			glDeleteBuffers(buffer);
+			disposed = true;
+		}
+	}
+	
+	@Override
+	public boolean isDisposed() {
+		return disposed;
 	}
 	
 	public static void initialize() {

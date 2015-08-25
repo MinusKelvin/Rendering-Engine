@@ -1,5 +1,6 @@
 package minusk.render.graphics.globjects;
 
+import minusk.render.interfaces.Disposable;
 import minusk.render.util.Util;
 
 import javax.imageio.ImageIO;
@@ -12,8 +13,9 @@ import static org.lwjgl.opengl.GL12.GL_BGRA;
 import static org.lwjgl.opengl.GL12.GL_TEXTURE_MAX_LEVEL;
 import static org.lwjgl.opengl.GL30.GL_RGBA32F;
 
-public class Texture {
+public class Texture implements Disposable {
 	public final int width, height, mipmapLevels, id;
+	private boolean disposed = false;
 	
 	public Texture(int width, int height, int mipmapLevels, boolean hdr) {
 		id = glGenTextures();
@@ -32,7 +34,7 @@ public class Texture {
 		
 		for (int i = 0; i < mipmapLevels; i++)
 			glTexImage2D(GL_TEXTURE_2D, i, hdr?GL_RGBA32F:GL_RGBA8, width/(1<<i), height/(1<<i), 0, GL_BGRA, GL_FLOAT, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, mipmapLevels-1);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, mipmapLevels - 1);
 	}
 	
 	public Texture setTextureData(InputStream s, int mipmapLevel) {
@@ -74,8 +76,15 @@ public class Texture {
 	}
 	
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		glDeleteTextures(id);
+	public void dispose() {
+		if (!disposed) {
+			glDeleteTextures(id);
+			disposed = true;
+		}
+	}
+	
+	@Override
+	public boolean isDisposed() {
+		return disposed;
 	}
 }

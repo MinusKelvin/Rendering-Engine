@@ -1,6 +1,7 @@
 package minusk.render.graphics.globjects;
 
 import minusk.render.graphics.Color;
+import minusk.render.interfaces.Disposable;
 import minusk.render.util.Util;
 
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import static org.lwjgl.opengl.GL20.glDrawBuffers;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL32.glFramebufferTexture;
 
-public class Framebuffer {
+public class Framebuffer implements Disposable {
 	private static int defaultWidth, defaultHeight;
 	public final int id;
 	private int viewWidth, viewHeight;
@@ -19,6 +20,7 @@ public class Framebuffer {
 	private DepthStencilBuffer depthStencil;
 	private int[] activeDrawBufs = new int[0];
 	private Color clearColor = Color.Transparent_Black;
+	private boolean disposed = false;
 	
 	/**
 	 * Creates a new <code>Framebuffer</code> for use with off-screen rendering.
@@ -136,8 +138,15 @@ public class Framebuffer {
 	}
 	
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		glDeleteFramebuffers(id);
+	public void dispose() {
+		if (!disposed) {
+			glDeleteFramebuffers(id);
+			disposed = true;
+		}
+	}
+	
+	@Override
+	public boolean isDisposed() {
+		return disposed;
 	}
 }
