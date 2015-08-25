@@ -1,14 +1,12 @@
 package minusk.render.graphics.draw;
 
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 import minusk.render.graphics.globjects.Shader;
 import minusk.render.graphics.globjects.SpriteSheet;
+
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 
 public class SpriteDrawPass extends DrawPass {
 	private static Shader spriteShader;
@@ -106,6 +104,10 @@ public class SpriteDrawPass extends DrawPass {
 			float x2, float y2, float u2, float v2, float layer2) {
 		drawTriangle(x1, y1, u1, v1, layer1, x1, y2, u1, v2, (layer1+layer2)/2, x2, y2, u2, v2, layer2);
 		drawTriangle(x1, y1, u1, v1, layer1, x2, y2, u2, v2, layer2, x2, y1, u2, v1, (layer1+layer2)/2);
+	}
+	
+	public void drawSprite(float x, float y, float spriteSize, int index) {
+		drawRectangle(x, y, 0, 0, index, x+spriteSize, y+spriteSize, 1, 1, index);
 	}
 	
 	private static final String vert =
