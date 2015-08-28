@@ -1,15 +1,13 @@
 package minusk.render.graphics.draw;
 
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import minusk.render.graphics.Color;
 import minusk.render.graphics.globjects.Shader;
 import minusk.render.math.Matrix2;
 import minusk.render.math.Vec2;
+
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL20.*;
 
 
 public class ColorDrawPass extends DrawPass {
@@ -18,8 +16,8 @@ public class ColorDrawPass extends DrawPass {
 	
 	static Shader getColorShader() {
 		if (colorShader == null) {
-			colorShader = new Shader(ColorDrawPass.class.getResourceAsStream("/minusk/render/graphics/draw/shaders/color.vs"),
-					ColorDrawPass.class.getResourceAsStream("/minusk/render/graphics/draw/shaders/color.fs"));
+			colorShader = new Shader(ColorDrawPass.class.getResourceAsStream("/minusk/render/graphics/draw/shaders/color.vs.glsl"),
+					ColorDrawPass.class.getResourceAsStream("/minusk/render/graphics/draw/shaders/color.fs.glsl"));
 			colorShader.link();
 			colorShader.use();
 			projloc = glGetUniformLocation(colorShader.id, "proj");

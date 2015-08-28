@@ -16,14 +16,8 @@ public class SpriteDrawPass extends DrawPass {
 
 	public SpriteDrawPass(int maxPolys, SpriteSheet texture) {
 		super(maxPolys, 24);
-		if (spriteShader == null) {
-			spriteShader = new Shader(vert, frag);
-			spriteShader.link();
-			spriteShader.use();
-			projloc = glGetUniformLocation(spriteShader.id, "proj");
-		}
-		shader = spriteShader;
-		cameraLocation = projloc;
+		shader = getSpriteShader();
+		cameraLocation = getSpriteProjloc();
 		this.texture = texture;
 	}
 
@@ -107,7 +101,27 @@ public class SpriteDrawPass extends DrawPass {
 	}
 	
 	public void drawSprite(float x, float y, float spriteSize, int index) {
-		drawRectangle(x, y, 0, 0, index, x+spriteSize, y+spriteSize, 1, 1, index);
+		drawRectangle(x, y, 0, 0, index, x + spriteSize, y + spriteSize, 1, 1, index);
+	}
+	
+	public static Shader getSpriteShader() {
+		if (spriteShader == null) {
+			spriteShader = new Shader(vert, frag);
+			spriteShader.link();
+			spriteShader.use();
+			projloc = glGetUniformLocation(spriteShader.id, "proj");
+		}
+		return spriteShader;
+	}
+	
+	public static int getSpriteProjloc() {
+		if (spriteShader == null) {
+			spriteShader = new Shader(vert, frag);
+			spriteShader.link();
+			spriteShader.use();
+			projloc = glGetUniformLocation(spriteShader.id, "proj");
+		}
+		return projloc;
 	}
 	
 	private static final String vert =
