@@ -3,6 +3,7 @@ package minusk.render.graphics.draw;
 import minusk.render.graphics.filters.BlendFunc;
 import minusk.render.graphics.globjects.Shader;
 import minusk.render.graphics.globjects.SpriteSheet;
+import minusk.render.math.Vec2;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -182,7 +183,7 @@ public class TextDrawPass extends DrawPass {
 		polys += 2;
 	}
 	
-	public void drawString(float x, float y, String text, int color, float scale, float wrapPoint, boolean ydown) {
+	public Vec2 drawString(float x, float y, String text, int color, float scale, float wrapPoint, boolean ydown) {
 		final float origx = x;
 		float distx = 0;
 		Matcher str = splitPattern.matcher(text);
@@ -211,6 +212,7 @@ public class TextDrawPass extends DrawPass {
 				x += characterSizes[word.charAt(i)] * charWidth * scale;
 			}
 		}
+		return new Vec2(x,y);
 	}
 	
 	private float getLength(String word) {
