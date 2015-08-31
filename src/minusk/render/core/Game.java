@@ -17,8 +17,8 @@ public abstract class Game implements Updateable, Renderable {
 	
 	protected Window window;
 	
-	public Game(int width, int height, String title, int samples) {
-		window = Window.createWindow(width, height, title, samples);
+	public Game(int width, int height, String title, int samples, boolean hasBorder) {
+		window = Window.createWindow(width, height, title, samples, hasBorder);
 		Framebuffer.setDefaultFramebufferDimensions(width, height);
 	}
 	

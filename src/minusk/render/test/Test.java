@@ -9,7 +9,7 @@ public class Test extends Game {
 	private float scale = 1;
 	
 	public Test() {
-		super(1280, 720, "Game", 8);
+		super(1280, 720, "Game", 8, false);
 	}
 
 	public static void main(String[] args) {

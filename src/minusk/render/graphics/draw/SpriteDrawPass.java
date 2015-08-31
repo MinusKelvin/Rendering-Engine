@@ -101,7 +101,7 @@ public class SpriteDrawPass extends DrawPass {
 	}
 	
 	public void drawSprite(float x, float y, float spriteSize, int index) {
-		drawRectangle(x, y, 0, 0, index, x + spriteSize, y + spriteSize, 1, 1, index);
+		drawRectangle(x, y, 0, 1, index, x + spriteSize, y + spriteSize, 1, 0, index);
 	}
 	
 	public static Shader getSpriteShader() {

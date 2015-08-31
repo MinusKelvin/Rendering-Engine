@@ -34,7 +34,7 @@ public class Window {
 	
 	private static GLFWErrorCallback ecb;
 	
-	public static Window createWindow(int width, int height, String title, int samples) {
+	public static Window createWindow(int width, int height, String title, int samples, boolean hasBorder) {
 		if (glfwInit() != GL_TRUE)
 			throw new IllegalStateException("Could not initialized GLFW.");
 		glfwSetErrorCallback(ecb==null ? ecb=Callbacks.errorCallbackThrow() : ecb);
@@ -49,6 +49,7 @@ public class Window {
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_SAMPLES, samples);
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+		glfwWindowHint(GLFW_DECORATED, hasBorder ? GL_TRUE : GL_FALSE);
 		
 		long window = glfwCreateWindow(width, height, title, NULL, NULL);
 		if (window == NULL)
