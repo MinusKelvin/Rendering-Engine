@@ -1,17 +1,13 @@
 package minusk.render.graphics.draw;
 
+import minusk.render.graphics.globjects.MultisampledTexture;
+import minusk.render.graphics.globjects.Shader;
+
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniform1i;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.GL_TEXTURE_2D_MULTISAMPLE;
-
-import minusk.render.graphics.globjects.MultisampledTexture;
-import minusk.render.graphics.globjects.Shader;
 
 public class MultisampledTextureDrawPass extends DrawPass {
 	private static Shader textureShader;
@@ -43,7 +39,7 @@ public class MultisampledTextureDrawPass extends DrawPass {
 	protected void preRender() {
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, 20, 0);
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, false, 20, 12);
+		glVertexAttribPointer(1, 2, GL_FLOAT, false, 20, 12);
 		glEnableVertexAttribArray(1);
 		
 		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture.id);

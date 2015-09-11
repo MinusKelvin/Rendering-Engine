@@ -11,7 +11,7 @@ public class TextureDrawPass extends DrawPass {
 	private static Shader textureShader;
 	private static int projloc;
 	
-	private Texture texture;
+	public final Texture texture;
 	
 	public TextureDrawPass(Texture tex, int maxPolys) {
 		super(maxPolys, 20, GL_STREAM_DRAW);
@@ -34,7 +34,7 @@ public class TextureDrawPass extends DrawPass {
 	protected void preRender() {
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, 20, 0);
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, false, 20, 12);
+		glVertexAttribPointer(1, 2, GL_FLOAT, false, 20, 12);
 		glEnableVertexAttribArray(1);
 		
 		glBindTexture(GL_TEXTURE_2D, texture.id);
